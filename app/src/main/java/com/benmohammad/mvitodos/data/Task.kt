@@ -10,7 +10,7 @@ data class Task(
     val completed: Boolean = false
 ) {
 
-    val titleList =
+    val titleForList =
         if(title.isNotNullNorEmpty()) {
             title
         } else {
