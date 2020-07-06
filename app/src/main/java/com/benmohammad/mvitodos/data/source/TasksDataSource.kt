@@ -25,7 +25,7 @@ interface TasksDataSource {
 
     fun activateTask(taskId: String): Completable
 
-    fun clearCompleted(): Completable
+    fun clearCompletedTasks(): Completable
 
     fun refreshTasks()
 

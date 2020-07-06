@@ -115,7 +115,7 @@ class TasksLocalDataSource private constructor(
         return Completable.complete()
     }
 
-    override fun clearCompleted(): Completable {
+    override fun clearCompletedTasks(): Completable {
         val selection = COLUMN_NAME_COMPLETED + " LIKE ?"
         val selectionArgs = arrayOf("1")
         databaseHelper.delete(TABLE_NAME, selection, *selectionArgs)
