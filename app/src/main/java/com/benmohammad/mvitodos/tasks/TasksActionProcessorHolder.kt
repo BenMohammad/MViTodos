@@ -19,7 +19,7 @@ class TasksActionProcessorHolder(
             actions.flatMap { action ->
                 tasksRepository.getTasks(action.forceUpdate)
                     .toObservable()
-                    .map { tasks -> LoadTasksResult.Success(tasks, action.filterTYpe) }
+                    .map { tasks -> LoadTasksResult.Success(tasks, action.filterType) }
                     .cast(LoadTasksResult::class.java)
                     .onErrorReturn(LoadTasksResult::Failure)
                     .subscribeOn(schedulerProvider.io())

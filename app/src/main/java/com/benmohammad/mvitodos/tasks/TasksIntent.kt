@@ -15,5 +15,5 @@ sealed class TasksIntent: MviIntent {
 
     object ClearCompletedTasksIntent : TasksIntent()
 
-    data class ChangeFilterIntent(val filterTYpe: TasksFilterType): TasksIntent()
+    data class ChangeFilterIntent(val filterType: TasksFilterType): TasksIntent()
 }
