@@ -29,6 +29,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
 }
 
@@ -54,6 +57,7 @@ dependencies {
 
     implementation 'com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:4.0.0'
     implementation "com.jakewharton.rxbinding2:rxbinding-support-v4:2.2.0"
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
 
 
 }

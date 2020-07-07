@@ -7,13 +7,16 @@ import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.benmohammad.mvitodos.R
 import com.benmohammad.mvitodos.addedittask.AddEditTaskActivity
 import com.benmohammad.mvitodos.mvibase.MviView
 import com.benmohammad.mvitodos.taskdetail.TaskDetailActivity
 import com.benmohammad.mvitodos.tasks.TasksViewState.UiNotification.*
+import com.benmohammad.mvitodos.util.ToDoViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
@@ -38,11 +41,12 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
     private val changeFilterIntentPublisher = PublishSubject.create<TasksIntent.ChangeFilterIntent>()
     private val disposables = CompositeDisposable()
     private val viewModel: TasksViewModel by lazy(NONE) {
-        ViewModelProvider(this).get(TasksViewModel::class.java)
+        ViewModelProvider(this, ToDoViewModelFactory.getInstance(requireContext())).get(TasksViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         listAdapter = TasksAdapter(ArrayList(0))
     }
 
