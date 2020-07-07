@@ -16,7 +16,7 @@ class ScrollChildSwipeRefreshLayout: SwipeRefreshLayout {
         return scrollUpChild?.canScrollVertically(-1) ?:super.canChildScrollUp()
     }
 
-    fun setScrollChild(view: View) {
+    fun setScrollUpChild(view: View) {
         scrollUpChild = view
     }
 }
