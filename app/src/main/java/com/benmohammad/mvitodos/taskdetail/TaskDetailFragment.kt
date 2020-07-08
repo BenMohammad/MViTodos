@@ -72,6 +72,7 @@ class TaskDetailFragment: Fragment(), MviView<TaskDetailIntent, TaskDetailViewSt
     override fun onDestroy() {
         super.onDestroy()
         disposables.dispose()
+        
     }
 
 
