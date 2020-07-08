@@ -26,7 +26,7 @@ sealed class TaskDetailResult: MviResult {
     }
 
     sealed class DeleteTaskResult: TaskDetailResult() {
-        data class Success(val task: Task): DeleteTaskResult()
+        object  Success: DeleteTaskResult()
         data class Failure(val error: Throwable): DeleteTaskResult()
         object InFlight: DeleteTaskResult()
     }
