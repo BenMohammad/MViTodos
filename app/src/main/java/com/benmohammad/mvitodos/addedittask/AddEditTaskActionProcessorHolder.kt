@@ -59,7 +59,7 @@ class AddEditTaskActionProcessorHolder(
                     shared.ofType(UpdateTaskAction::class.java).compose(updateTaskProcessor)
                 ).mergeWith(
                     shared.filter { v ->
-                        v !is PopulateTaskAction
+                        v !is   PopulateTaskAction
                                 && v !is CreateTaskAction
                                 && v !is UpdateTaskAction
                     }.flatMap { w ->

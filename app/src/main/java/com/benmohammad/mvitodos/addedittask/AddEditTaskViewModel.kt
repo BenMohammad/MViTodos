@@ -75,8 +75,8 @@ class AddEditTaskViewModel(
             when(result) {
                 is PopulateTaskResult -> when (result) {
                     is PopulateTaskResult.Success -> {
-                        result.task.let {
-                            task -> if(task.active) {
+                        result.task.let { task ->
+                            if(task.active) {
                             previousState.copy(title = task.title!!, description = task.description!!)
                         } else {
                             previousState
