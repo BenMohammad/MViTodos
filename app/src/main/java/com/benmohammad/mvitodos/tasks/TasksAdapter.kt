@@ -29,7 +29,7 @@ class TasksAdapter(tasks: List<Task>): BaseAdapter() {
         setList(tasks)
     }
 
-    fun replaceData(task: List<Task>) {
+    fun replaceData(tasks: List<Task>) {
         setList(tasks)
         notifyDataSetChanged()
     }

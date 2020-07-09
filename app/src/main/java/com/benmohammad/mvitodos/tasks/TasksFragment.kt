@@ -94,16 +94,16 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
         noTaskAddView = root.findViewById(R.id.noTasksAdd)
         noTaskAddView.setOnClickListener { showAddTask() }
 
-        val fab = activity!!.findViewById<FloatingActionButton>(R.id.fab_add_task)
+        val fab = requireActivity()!!.findViewById<FloatingActionButton>(R.id.fab_add_task)
 
         fab.setImageResource(R.drawable.ic_add)
         fab.setOnClickListener { showAddTask() }
 
         swipeRefreshLayout = root.findViewById(R.id.refresh_layout)
         swipeRefreshLayout.setColorSchemeColors(
-            ContextCompat.getColor(activity!!, R.color.colorPrimary),
-            ContextCompat.getColor(activity!!, R.color.colorAccent),
-            ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
+            ContextCompat.getColor(requireActivity()!!, R.color.colorPrimary),
+            ContextCompat.getColor(requireActivity()!!, R.color.colorAccent),
+            ContextCompat.getColor(requireActivity()!!, R.color.colorPrimaryDark)
         )
 
         swipeRefreshLayout.setScrollUpChild(listView)
@@ -128,7 +128,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
     }
 
     private fun showFilteringPopupMenu() {
-        val popup = PopupMenu(context!!, activity!!.findViewById(R.id.menu_filter))
+        val popup = PopupMenu(requireContext()!!, requireActivity()!!.findViewById(R.id.menu_filter))
         popup.menuInflater.inflate(R.menu.filter_tasks, popup.menu)
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -277,7 +277,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
         noTasksView.visibility = View.VISIBLE
 
         noTaskMainView.text = mainText
-        noTaskIcon.setImageDrawable(ContextCompat.getDrawable(context!!, iconRes))
+        noTaskIcon.setImageDrawable(ContextCompat.getDrawable(requireContext()!!, iconRes))
         noTaskAddView.visibility = if(showAddView) View.VISIBLE else View.GONE
     }
 
