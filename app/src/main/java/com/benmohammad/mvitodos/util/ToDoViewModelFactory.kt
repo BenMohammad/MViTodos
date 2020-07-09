@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.benmohammad.mvitodos.Injection
+import com.benmohammad.mvitodos.addedittask.AddEditTaskActionProcessorHolder
+import com.benmohammad.mvitodos.addedittask.AddEditTaskViewModel
 import com.benmohammad.mvitodos.taskdetail.TaskDetailActionProcessorHolder
 import com.benmohammad.mvitodos.taskdetail.TaskDetailViewModel
 import com.benmohammad.mvitodos.tasks.TasksActionProcessorHolder
@@ -24,6 +26,11 @@ class ToDoViewModelFactory private constructor(
         } else if(modelClass == TaskDetailViewModel::class.java) {
             return TaskDetailViewModel(
                 TaskDetailActionProcessorHolder(
+                    Injection.provideTasksRepository(applicationContext),
+                    Injection.provideSchedulerProvider())) as T
+        } else if(modelClass == AddEditTaskViewModel::class.java) {
+            return AddEditTaskViewModel(
+                AddEditTaskActionProcessorHolder(
                     Injection.provideTasksRepository(applicationContext),
                     Injection.provideSchedulerProvider())) as T
         }

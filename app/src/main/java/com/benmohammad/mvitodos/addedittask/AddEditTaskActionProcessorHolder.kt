@@ -54,12 +54,12 @@ class AddEditTaskActionProcessorHolder(
         ObservableTransformer<AddEditTaskAction, AddEditTaskResult> { actions ->
             actions.publish { shared ->
                 Observable.merge<AddEditTaskResult>(
-                    shared.ofType(AddEditTaskAction.PopulateTaskAction::class.java).compose(populateTaskProcessor),
-                    shared.ofType(AddEditTaskAction.CreateTaskAction::class.java).compose(createTaskProcessor),
-                    shared.ofType(AddEditTaskAction.UpdateTaskAction::class.java).compose(updateTaskProcessor)
+                    shared.ofType(PopulateTaskAction::class.java).compose(populateTaskProcessor),
+                    shared.ofType(CreateTaskAction::class.java).compose(createTaskProcessor),
+                    shared.ofType(UpdateTaskAction::class.java).compose(updateTaskProcessor)
                 ).mergeWith(
                     shared.filter { v ->
-                        v !is AddEditTaskAction.PopulateTaskAction
+                        v !is PopulateTaskAction
                                 && v !is CreateTaskAction
                                 && v !is UpdateTaskAction
                     }.flatMap { w ->
