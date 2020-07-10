@@ -1,7 +1,6 @@
 package com.benmohammad.mvitodos.stats
 
 import com.benmohammad.mvitodos.mvibase.MviViewState
-import io.reactivex.internal.schedulers.NewThreadWorker
 
 data class StatisticsViewState(
     val isLoading: Boolean,
