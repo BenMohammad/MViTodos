@@ -2,6 +2,7 @@ package com.benmohammad.mvitodos.addedittask
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.benmohammad.mvitodos.util.ToDoViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.Flowable.just
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 
@@ -62,6 +65,7 @@ class AddEditTaskFragment: Fragment(), MviView<AddEditTaskIntent, AddEditTaskVie
 
     private fun bind() {
         disposables.add(viewModel.states().subscribe(this::render))
+        viewModel.processIntents(intents())
 
     }
 
@@ -76,7 +80,7 @@ class AddEditTaskFragment: Fragment(), MviView<AddEditTaskIntent, AddEditTaskVie
     }
 
     private fun saveTaskIntent(): Observable<SaveTask> {
-        return  RxView.clicks(fab).map{ SaveTask(argumentTaskID, title.text.toString(), description.text.toString())}
+        return RxView.clicks(fab).map{SaveTask(argumentTaskID, title.text.toString(), description.text.toString())}
     }
 
 

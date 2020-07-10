@@ -17,6 +17,8 @@ import com.benmohammad.mvitodos.tasks.TasksViewState.UiNotification.*
 import com.benmohammad.mvitodos.util.ToDoViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
+import com.jakewharton.rxbinding4.swiperefreshlayout.refreshes
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -169,6 +171,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
     override fun intents(): Observable<TasksIntent> {
         return Observable.merge(
             initialIntent(),
+            refreshIntent(),
             adapterIntent(),
             clearCompletedTaskIntent()
         )
@@ -184,6 +187,12 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
 
     private fun clearCompletedTaskIntent(): Observable<TasksIntent.ClearCompletedTasksIntent> {
         return clearCompletedTaskIntentPublisher
+    }
+
+    private fun refreshIntent(): Observable<TasksIntent.RefreshIntent>? {
+        return RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
+            .map{ TasksIntent.RefreshIntent(false)}
+            .mergeWith(refreshPublishIntent)
     }
 
     private fun changeFilterIntent(): Observable<TasksIntent.ChangeFilterIntent> {

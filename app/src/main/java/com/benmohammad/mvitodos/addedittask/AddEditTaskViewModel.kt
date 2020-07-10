@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.benmohammad.mvitodos.addedittask.AddEditTaskAction.*
 import com.benmohammad.mvitodos.addedittask.AddEditTaskResult.*
 import com.benmohammad.mvitodos.mvibase.MviViewModel
+import com.benmohammad.mvitodos.util.notOfType
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.CompositeDisposable
@@ -24,7 +25,7 @@ class AddEditTaskViewModel(
         intents.publish{ shared ->
             Observable.merge<AddEditTaskIntent>(
                 shared.ofType(AddEditTaskIntent.InitialIntent::class.java).take(1),
-                shared.ofType(AddEditTaskIntent.InitialIntent::class.java)
+                shared.notOfType(AddEditTaskIntent.InitialIntent::class.java)
             )
         }
     }
