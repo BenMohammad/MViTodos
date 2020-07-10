@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.benmohammad.mvitodos.R
 import com.benmohammad.mvitodos.addedittask.AddEditTaskActivity
 import com.benmohammad.mvitodos.addedittask.AddEditTaskFragment
+import com.benmohammad.mvitodos.addedittask.AddEditTaskIntent
 import com.benmohammad.mvitodos.mvibase.MviView
 import com.benmohammad.mvitodos.util.ToDoViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -74,7 +75,6 @@ class TaskDetailFragment: Fragment(), MviView<TaskDetailIntent, TaskDetailViewSt
         disposables.dispose()
 
     }
-
 
 
     override fun intents(): Observable<TaskDetailIntent> {

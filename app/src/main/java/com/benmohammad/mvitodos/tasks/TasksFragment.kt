@@ -7,9 +7,7 @@ import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.benmohammad.mvitodos.R
 import com.benmohammad.mvitodos.addedittask.AddEditTaskActivity
@@ -19,16 +17,15 @@ import com.benmohammad.mvitodos.tasks.TasksViewState.UiNotification.*
 import com.benmohammad.mvitodos.util.ToDoViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.tasks_frag.*
 import kotlin.LazyThreadSafetyMode.NONE
 
 class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
 
     private lateinit var listAdapter: TasksAdapter
+    private lateinit var fab: FloatingActionButton
     private lateinit var noTasksView: View
     private lateinit var noTaskIcon: ImageView
     private lateinit var noTaskMainView: TextView
@@ -94,7 +91,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
         noTaskAddView = root.findViewById(R.id.noTasksAdd)
         noTaskAddView.setOnClickListener { showAddTask() }
 
-        val fab = requireActivity()!!.findViewById<FloatingActionButton>(R.id.fab_add_task)
+        fab = requireActivity()!!.findViewById(R.id.fab_add_task)
 
         fab.setImageResource(R.drawable.ic_add)
         fab.setOnClickListener { showAddTask() }
@@ -112,7 +109,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item!!.itemId) {
+        when(item.itemId) {
             R.id.menu_clear ->
                 clearCompletedTaskIntentPublisher.onNext(TasksIntent.ClearCompletedTasksIntent)
 
@@ -123,12 +120,12 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater!!.inflate(R.menu.tasks_fragment_menu, menu)
+        inflater.inflate(R.menu.tasks_fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun showFilteringPopupMenu() {
-        val popup = PopupMenu(requireContext()!!, requireActivity()!!.findViewById(R.id.menu_filter))
+        val popup = PopupMenu(requireContext(), requireActivity().findViewById(R.id.menu_filter))
         popup.menuInflater.inflate(R.menu.filter_tasks, popup.menu)
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -172,7 +169,6 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
     override fun intents(): Observable<TasksIntent> {
         return Observable.merge(
             initialIntent(),
-            refreshIntent(),
             adapterIntent(),
             clearCompletedTaskIntent()
         )
@@ -185,11 +181,6 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
         return Observable.just(TasksIntent.InitialIntent)
     }
 
-    private fun refreshIntent(): Observable<TasksIntent.RefreshIntent>? {
-        return RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
-            .map{ TasksIntent.RefreshIntent(false)}
-            .mergeWith(refreshPublishIntent)
-    }
 
     private fun clearCompletedTaskIntent(): Observable<TasksIntent.ClearCompletedTasksIntent> {
         return clearCompletedTaskIntentPublisher
@@ -241,7 +232,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
             when(state.tasksFilterType) {
                 TasksFilterType.ACTIVE_TASKS -> showActiveFilterLabel()
                 TasksFilterType.COMPLETED_TASKS -> showCompletedFilterLabel()
-                else -> showAllFilterlabel()
+                else -> showAllFilterLabel()
 
             }        }
 
@@ -277,7 +268,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
         noTasksView.visibility = View.VISIBLE
 
         noTaskMainView.text = mainText
-        noTaskIcon.setImageDrawable(ContextCompat.getDrawable(requireContext()!!, iconRes))
+        noTaskIcon.setImageDrawable(ContextCompat.getDrawable(requireContext(), iconRes))
         noTaskAddView.visibility = if(showAddView) View.VISIBLE else View.GONE
     }
 
@@ -289,7 +280,7 @@ class TasksFragment: Fragment(), MviView<TasksIntent, TasksViewState> {
         filteringLabelView.text = resources.getString(R.string.label_completed)
     }
 
-    private fun showAllFilterlabel() {
+    private fun showAllFilterLabel() {
         filteringLabelView.text = resources.getString(R.string.label_all)
     }
 

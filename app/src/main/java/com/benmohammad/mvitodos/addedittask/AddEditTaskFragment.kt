@@ -14,8 +14,7 @@ import com.benmohammad.mvitodos.mvibase.MviView
 import com.benmohammad.mvitodos.util.ToDoViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.rxbinding4.material.visibility
-import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 
@@ -48,13 +47,14 @@ class AddEditTaskFragment: Fragment(), MviView<AddEditTaskIntent, AddEditTaskVie
             .also{
                 title = it.findViewById(R.id.add_task_title)
                 description = it.findViewById(R.id.add_task_description)
+
                 setHasOptionsMenu(true)
             }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fab = requireActivity()!!.findViewById(R.id.fab_edit_task_done)
+        fab = requireActivity().findViewById(R.id.fab_edit_task_done)
         fab.setImageResource(R.drawable.ic_done)
 
         bind()
@@ -62,7 +62,7 @@ class AddEditTaskFragment: Fragment(), MviView<AddEditTaskIntent, AddEditTaskVie
 
     private fun bind() {
         disposables.add(viewModel.states().subscribe(this::render))
-        viewModel.processIntents(intents())
+
     }
 
 
@@ -76,12 +76,12 @@ class AddEditTaskFragment: Fragment(), MviView<AddEditTaskIntent, AddEditTaskVie
     }
 
     private fun saveTaskIntent(): Observable<SaveTask> {
-        return view.clicks(fab).map{SaveTask(argumentTaskID, title.text.toString()!!, description.text.toString()!!)}
+        return  RxView.clicks(fab).map{ SaveTask(argumentTaskID, title.text.toString(), description.text.toString())}
     }
 
-    private fun saveTaskIntent2(): Observable<SaveTask> {
-        return RxView.clicks(fab).map {SaveTask(argumentTaskID, title.text.toString()!!, description.text.toString()!!)}
-    }
+
+
+
 
     override fun render(state: AddEditTaskViewState) {
         if(state.isSaved) {
@@ -107,8 +107,8 @@ class AddEditTaskFragment: Fragment(), MviView<AddEditTaskIntent, AddEditTaskVie
     }
 
     private fun showTasksList() {
-        requireActivity()!!.setResult(Activity.RESULT_OK)
-        requireActivity()!!.finish()
+        requireActivity().setResult(Activity.RESULT_OK)
+        requireActivity().finish()
     }
 
     private fun setTitle(title: String) {
